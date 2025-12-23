@@ -1473,7 +1473,9 @@ static uint32_t js_string_convert_pos(JSContext *ctx, JSValue val, uint32_t pos,
     for(ce_idx = 0; ce_idx < JS_STRING_POS_CACHE_SIZE; ce_idx++) {
         ce1 = &ctx->string_pos_cache[ce_idx];
         if (ce1->str == val) {
-            d = abs(ce1->str_pos[pos_type] - pos);
+            uint32_t str_posit = ce1->str_pos[pos_type];
+            uint32_t posit = pos;
+            d = (str_posit > posit) ? (str_posit - posit) : (posit - str_posit);
             if (d < d_min) {
                 d_min = d;
                 ce = ce1;
